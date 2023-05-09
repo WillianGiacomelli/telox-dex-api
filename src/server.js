@@ -1,5 +1,7 @@
 const express = require("express");
 
+require("./config/database");
+
 const app = express();
 
 const { PORT } = require("./config/env");
