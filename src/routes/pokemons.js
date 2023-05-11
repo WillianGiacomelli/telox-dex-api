@@ -2,8 +2,6 @@ const { Router } = require("express");
 
 const pokemonsController = require("../controllers/pokemons.controllers");
 
-//const {verifyAutenticate} = require("../middlewares/verifyAutentication")
-
 const routes = Router();
 
 routes.get("/pokemons", pokemonsController.list);
