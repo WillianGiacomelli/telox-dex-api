@@ -27,10 +27,14 @@ const getById = async (req, res) => {
 
   try {
     if (!id) {
-      throw new error();
+      throw new Error();
     }
 
     const trainer = await TrainerModel.findById(id);
+
+    if (!trainer) {
+      throw new Error();
+    }
 
     return res.status(200).json(trainer);
   } catch (error) {
@@ -46,7 +50,7 @@ const create = async (req, res) => {
     req.body;
 
   try {
-    const pokemons = await PokemonModel.find({ _id: { $in: pokemons } });
+    const pokemonslist = await PokemonModel.find({ _id: { $in: pokemons } });
 
     const trainer = await TrainerModel.create({
       name,
@@ -74,10 +78,10 @@ const update = async (req, res) => {
 
   try {
     if (!id) {
-      throw new error();
+      throw new Error();
     }
 
-    pokemons = await PokemonModel.find({ _id: { $in: pokemons } });
+    pokemonsList = await PokemonModel.find({ _id: { $in: pokemons } });
 
     const trainerUpdated = await TrainerModel.findByIdAndUpdate(
       id,
@@ -88,7 +92,7 @@ const update = async (req, res) => {
         is_leader,
         badges,
         speciality,
-        pokemons: pokemons,
+        pokemons: pokemonsList,
       },
       {
         new: true,
@@ -109,13 +113,13 @@ const remove = async (req, res) => {
 
   try {
     if (!id) {
-      throw new error();
+      throw new Error();
     }
 
     const trainerDeleted = await TrainerModel.findByIdAndDelete(id);
 
     if (!trainerDeleted) {
-      throw new error();
+      throw new Error();
     }
 
     return res.status(204).send();

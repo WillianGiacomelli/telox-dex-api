@@ -3,12 +3,7 @@ const PokemonModel = require("../model/pokemon.model");
 const list = async (req, res) => {
   const querypokemon = req.query;
   try {
-    if (querypokemon) {
-      const pokemonquery = await PokemonModel.find(querypokemon);
-
-      return res.json(pokemonquery);
-    }
-    const pokemons = await PokemonModel.find();
+    const pokemons = await PokemonModel.find(querypokemon || {});
 
     return res.json(pokemons);
   } catch (error) {
@@ -57,7 +52,7 @@ const create = async (req, res) => {
       is_legendary,
     });
 
-    return res.status(201).json(pokemon);
+    return res.json(pokemon);
   } catch (error) {
     return res.status(400).json({
       error: "@pokemons/create",
@@ -84,7 +79,7 @@ const update = async (req, res) => {
       throw new Error();
     }
 
-    return resp.status(201).json(pokemonUpdated);
+    return res.json(pokemonUpdated);
   } catch (error) {
     return res.status(400).json({
       error: "@pokemons/update",
@@ -101,7 +96,7 @@ const remove = async (req, res) => {
     if (!pokemonRemoved) {
       throw new Error();
     }
-    return res.status(201).json(pokemonRemoved);
+    return res.status(204).json(pokemonRemoved);
   } catch {
     return res.status(400).json({
       error: "@pokemons/remove",
